@@ -1,5 +1,5 @@
 import { ComponentFactoryResolver, Injectable, Injector } from "@angular/core";
-import { registerElement } from "@nativescript/angular";
+import { isKnownView, registerElement } from "@nativescript/angular";
 import { ContentView, getRootLayout, View } from "@nativescript/core";
 import { AnimationCurve } from "@nativescript/core/ui/enums";
 import {
@@ -130,7 +130,9 @@ export class UIService {
         // https://github.com/NativeScript/nativescript-angular/issues/1547
         // There is an issue with ProxyViewContainer not having some layout/view related information
         // that makes it not animatable
-        registerElement(componentFactory.selector, () => ContentView);
+        if (!isKnownView(componentFactory.selector)) {
+            registerElement(componentFactory.selector, () => ContentView);
+        }
 
         const componentRef = componentFactory.create(this.injector);
 
