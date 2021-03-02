@@ -1,7 +1,16 @@
-<GridLayout verticalAlignment="bottom" height="300" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0">
-    <StackLayout>
-        <Button (tap)="close()" text="CLOSE"></Button>
-        <Button (tap)="showSnackbar()" text="OPEN SNACKBAR"></Button>
-        <Button (tap)="closeBottomsheet()" text="CLOSE BOTTOMSHEET"></Button>
+<GridLayout verticalAlignment="bottom" height="400" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0">
+    <StackLayout padding="20">
+        <Label color="#000" fontWeight="bold" fontSize="18" marginBottom="15" text="Ok, what else?"></Label>
+        <StackLayout (tap)="showSnackbar()" class="button">
+            <Label text="Show me a snackbar!"></Label>
+        </StackLayout>
+
+        <StackLayout (tap)="closeBottomsheet()" class="button">
+            <Label text="Hmm, close the bottomsheet behind me (if any)"></Label>
+        </StackLayout>
+
+        <StackLayout (tap)="close()" class="button">
+            <Label text="Okay, thats enoguh. Close!"></Label>
+        </StackLayout>
     </StackLayout>
 </GridLayout>

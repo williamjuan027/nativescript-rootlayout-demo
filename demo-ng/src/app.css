@@ -70,3 +70,17 @@ Button.-primary {
   font-weight: bold;
   text-wrap: true;
 }
+
+.button {
+  font-size: 15;
+  font-weight: bold;
+  background-color: white;
+  color: gray;
+  border-radius: 10 9 10 10;
+  padding: 20;
+  margin: 10 0;
+}
+.button > Label {
+  text-align: center;
+  text-wrap: true;
+}

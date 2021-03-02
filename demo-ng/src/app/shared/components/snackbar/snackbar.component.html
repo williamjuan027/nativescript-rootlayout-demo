@@ -1,4 +1,3 @@
-<GridLayout columns="*, auto" height="130" rows="auto" verticalAlignment="top" class="bg-accent-primary" padding="10 20" borderRadius="0 0 15 15">
-    <Label verticalAlignment="center" fontSize="17" fontWeight="bold" color="white" row="0" col="0" text="Hello, I'm a snackbar"></Label>
-    <Button verticalAlignment="center" row="0" col="1" (tap)="close()" text="CLOSE"></Button>
-</GridLayout>
+<StackLayout height="130" verticalAlignment="top" class="bg-accent-primary" padding="10 20" borderRadius="0 0 15 15" (tap)="close()">
+    <Label verticalAlignment="center" fontSize="18" fontWeight="bold" color="white" row="0" col="0" text="Hello! You ordered a snackbar?"></Label>
+</StackLayout>

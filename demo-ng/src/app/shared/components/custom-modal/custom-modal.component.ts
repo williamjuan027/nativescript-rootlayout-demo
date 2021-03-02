@@ -9,6 +9,10 @@ import { UIService } from "../../../core";
 export class CustomModalComponent {
     constructor(private uiService: UIService) {}
 
+    showSnackbar(): void {
+        this.uiService.showSnackbar();
+    }
+
     close(): void {
         this.uiService.closeCustomModal();
     }
