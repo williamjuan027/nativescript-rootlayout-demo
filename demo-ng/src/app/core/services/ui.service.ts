@@ -5,6 +5,7 @@ import { AnimationCurve } from "@nativescript/core/ui/enums";
 import {
     BottomsheetComponent,
     SecondaryBottomsheetComponent,
+    SnackbarComponent,
 } from "../../shared/components";
 
 export const DEFAULT_ANIMATION_CURVE = AnimationCurve.cubicBezier(
@@ -25,6 +26,7 @@ export class UIService {
 
     private _bottomSheetView;
     private _secondaryBottomSheetView;
+    private _snackbar;
     showBottomSheet(): void {
         this._bottomSheetView = this._getView(BottomsheetComponent);
         getRootLayout()
@@ -104,6 +106,54 @@ export class UIService {
         if (this._secondaryBottomSheetView) {
             getRootLayout()
                 .close(this._secondaryBottomSheetView)
+                .then(() => {
+                    console.log("closed");
+                })
+                .catch((err) => {
+                    console.log("error closing", err);
+                });
+        }
+    }
+
+    showSnackbar(): void {
+        this._snackbar = this._getView(SnackbarComponent);
+        getRootLayout()
+            .open(this._snackbar, {
+                // TODO: shadecover is required to run close animation - this is not right
+                shadeCover: {
+                    color: "#FFF",
+                    opacity: 0.7,
+                    tapToClose: true,
+                },
+                animation: {
+                    enterFrom: {
+                        translateY: -300,
+                        duration: 300,
+                        curve: DEFAULT_ANIMATION_CURVE,
+                    },
+                    // TODO: Something is wrong with this
+                    exitTo: {
+                        translateY: -300,
+                        duration: 300,
+                        curve: DEFAULT_ANIMATION_CURVE,
+                    },
+                },
+            })
+            .then(() => {
+                console.log("opened");
+                setTimeout(() => {
+                    this.closeSnackbar();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log("error opening", err);
+            });
+    }
+
+    closeSnackbar(): void {
+        if (this._snackbar) {
+            getRootLayout()
+                .close(this._snackbar)
                 .then(() => {
                     console.log("closed");
                 })

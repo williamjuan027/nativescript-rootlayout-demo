@@ -12,4 +12,12 @@ export class HomeComponent {
     showBottomSheet(): void {
         this.uiService.showBottomSheet();
     }
+
+    showMiniBottomSheet(): void {
+        this.uiService.showSecondaryBottomSheet();
+    }
+
+    showSnackbar(): void {
+        this.uiService.showSnackbar();
+    }
 }

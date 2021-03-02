@@ -21,5 +21,52 @@ The following CSS rule changes the font size of all Buttons that have the
 "-primary" class modifier.
 */
 Button.-primary {
-    font-size: 18;
+  font-size: 18;
+}
+
+/*
+    Text Colors
+*/
+.text-accent-primary {
+  color: #63b0f5;
+}
+
+.text-accent-secondary {
+  color: #c0defa;
+}
+
+.text-accent-tertiary {
+  color: #dbecfc;
+}
+
+/*
+    Background Colors
+*/
+.bg-accent-primary {
+  background-color: #63b0f5;
+}
+
+.bg-accent-secondary {
+  background-color: #c0defa;
+}
+
+.bg-accent-tertiary {
+  background-color: #dbecfc;
+}
+
+/*
+    Containers
+*/
+.home-option-container {
+  border-radius: 20 19 20 20; /* TODO: something is wrong when seeting border radius with all the same value */
+  padding: 15;
+  background-color: #dbecfc;
+  margin: 5;
+}
+
+.home-option-container > Label {
+  font-size: 17;
+  text-align: center;
+  font-weight: bold;
+  text-wrap: true;
 }

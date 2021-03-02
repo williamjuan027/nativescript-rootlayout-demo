@@ -1,5 +1,7 @@
-<GridLayout verticalAlignment="bottom" height="300" backgroundColor="#63B0F5" padding="20 10" borderRadius="25 25 0 0">
-    <Button verticalAlignment="top" (tap)="close()" text="CLOSE"></Button>
+<GridLayout verticalAlignment="bottom" height="300" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0">
+    <StackLayout>
+        <Button (tap)="close()" text="CLOSE"></Button>
+        <Button (tap)="showSnackbar()" text="OPEN SNACKBAR"></Button>
+        <Button (tap)="closeBottomsheet()" text="CLOSE BOTTOMSHEET"></Button>
+    </StackLayout>
 </GridLayout>
-
-<!-- #DBECFC -->

@@ -12,4 +12,12 @@ export class SecondaryBottomsheetComponent {
     close(): void {
         this.uiService.closeSecondaryBottomSheet();
     }
+
+    showSnackbar(): void {
+        this.uiService.showSnackbar();
+    }
+
+    closeBottomsheet(): void {
+        this.uiService.closeBottomSheet();
+    }
 }
