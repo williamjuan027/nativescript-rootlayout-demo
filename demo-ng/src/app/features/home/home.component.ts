@@ -20,4 +20,8 @@ export class HomeComponent {
     showSnackbar(): void {
         this.uiService.showSnackbar();
     }
+
+    showCustomModal(): void {
+        this.uiService.showCustomModal();
+    }
 }

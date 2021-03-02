@@ -4,6 +4,7 @@ import { ContentView, getRootLayout, View } from "@nativescript/core";
 import { AnimationCurve } from "@nativescript/core/ui/enums";
 import {
     BottomsheetComponent,
+    CustomModalComponent,
     SecondaryBottomsheetComponent,
     SnackbarComponent,
 } from "../../shared/components";
@@ -27,6 +28,7 @@ export class UIService {
     private _bottomSheetView;
     private _secondaryBottomSheetView;
     private _snackbar;
+    private _customModal;
     showBottomSheet(): void {
         this._bottomSheetView = this._getView(BottomsheetComponent);
         getRootLayout()
@@ -106,6 +108,58 @@ export class UIService {
         if (this._secondaryBottomSheetView) {
             getRootLayout()
                 .close(this._secondaryBottomSheetView)
+                .then(() => {
+                    console.log("closed");
+                })
+                .catch((err) => {
+                    console.log("error closing", err);
+                });
+        }
+    }
+
+    showCustomModal(): void {
+        this._customModal = this._getView(CustomModalComponent);
+        getRootLayout()
+            .open(this._customModal, {
+                // TODO: shadecover is required to run close animation - this is not right
+                shadeCover: {
+                    color: "#FFF",
+                    opacity: 0.7,
+                    tapToClose: true,
+                },
+                animation: {
+                    // TODO: transition without translate X/Y doesn't align elements to center,
+                    // should fix that
+                    enterFrom: {
+                        translateY: 200,
+                        opacity: 0,
+                        duration: 300,
+                        curve: DEFAULT_ANIMATION_CURVE,
+                    },
+                    // TODO: Something is wrong with this
+                    exitTo: {
+                        translateY: 200,
+                        opacity: 0,
+                        duration: 300,
+                        curve: DEFAULT_ANIMATION_CURVE,
+                    },
+                },
+            })
+            .then(() => {
+                console.log("opened");
+                setTimeout(() => {
+                    this.closeSnackbar();
+                }, 1000);
+            })
+            .catch((err) => {
+                console.log("error opening", err);
+            });
+    }
+
+    closeCustomModal(): void {
+        if (this._customModal) {
+            getRootLayout()
+                .close(this._customModal)
                 .then(() => {
                     console.log("closed");
                 })

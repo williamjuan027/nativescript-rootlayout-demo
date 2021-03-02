@@ -16,4 +16,8 @@ export class BottomsheetComponent {
     openSecondaryBottomsheet(): void {
         this.uiService.showSecondaryBottomSheet();
     }
+
+    openCustomModal(): void {
+        this.uiService.showCustomModal();
+    }
 }
