@@ -1,6 +1,11 @@
 import { ComponentFactoryResolver, Injectable, Injector } from "@angular/core";
 import { isKnownView, registerElement } from "@nativescript/angular";
-import { ContentView, getRootLayout, View } from "@nativescript/core";
+import {
+    ContentView,
+    getRootLayout,
+    View,
+    GridLayout,
+} from "@nativescript/core";
 import { AnimationCurve } from "@nativescript/core/ui/enums";
 import {
     BottomsheetComponent,
@@ -131,14 +136,20 @@ export class UIService {
                     // TODO: transition without translate X/Y doesn't align elements to center,
                     // should fix that
                     enterFrom: {
-                        translateY: 200,
+                        // translateY: 200,
+                        scaleX: 0,
+                        scaleY: 0,
+                        rotate: 180,
                         opacity: 0,
                         duration: 300,
                         curve: DEFAULT_ANIMATION_CURVE,
                     },
                     // TODO: Something is wrong with this
                     exitTo: {
-                        translateY: 200,
+                        // translateY: 200,
+                        scaleX: 0,
+                        scaleY: 0,
+                        rotate: -180,
                         opacity: 0,
                         duration: 300,
                         curve: DEFAULT_ANIMATION_CURVE,
@@ -235,7 +246,11 @@ export class UIService {
         // There is an issue with ProxyViewContainer not having some layout/view related information
         // that makes it not animatable
         if (!isKnownView(componentFactory.selector)) {
-            registerElement(componentFactory.selector, () => ContentView);
+            // registerElement(componentFactory.selector, () => ContentView);
+
+            // TODO: For some reason if its set as ContentView or StackLayout, animating scaleX and scaleY
+            // messes up the position of the element (tested on ios simulator)
+            registerElement(componentFactory.selector, () => GridLayout);
         }
 
         const componentRef = componentFactory.create(this.injector);
