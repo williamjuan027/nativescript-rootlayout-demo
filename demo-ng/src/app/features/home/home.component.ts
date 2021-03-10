@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { UIService } from "../../core";
+import { UIService, CardService, Character } from "../../core";
 
 @Component({
     moduleId: module.id,
@@ -7,7 +7,10 @@ import { UIService } from "../../core";
     templateUrl: "./home.component.html",
 })
 export class HomeComponent {
-    constructor(private uiService: UIService) {}
+    constructor(
+        private uiService: UIService,
+        private cardService: CardService
+    ) {}
 
     showBottomSheet(): void {
         this.uiService.showBottomSheet();
@@ -23,5 +26,9 @@ export class HomeComponent {
 
     showCustomModal(): void {
         this.uiService.showCustomModal();
+    }
+
+    showRickAndMorty(): void {
+        this.cardService.openCard(Character.rick);
     }
 }

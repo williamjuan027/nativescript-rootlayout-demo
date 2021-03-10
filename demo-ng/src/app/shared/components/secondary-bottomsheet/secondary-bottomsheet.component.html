@@ -1,4 +1,4 @@
-<GridLayout verticalAlignment="bottom" height="400" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0">
+<GridLayout verticalAlignment="bottom" height="400" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0" iosOverflowSafeArea="true">
     <StackLayout padding="20">
         <Label color="#000" fontWeight="bold" fontSize="18" marginBottom="15" text="Ok, what else?"></Label>
         <StackLayout (tap)="showSnackbar()" class="button">
@@ -10,7 +10,7 @@
         </StackLayout>
 
         <StackLayout (tap)="close()" class="button">
-            <Label text="Okay, thats enoguh. Close!"></Label>
+            <Label text="Okay, thats enough. Close!"></Label>
         </StackLayout>
     </StackLayout>
 </GridLayout>

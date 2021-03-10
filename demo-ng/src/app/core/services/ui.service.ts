@@ -35,7 +35,7 @@ export class UIService {
     private _snackbar;
     private _customModal;
     showBottomSheet(): void {
-        this._bottomSheetView = this._getView(BottomsheetComponent);
+        this._bottomSheetView = this.getView(BottomsheetComponent);
         getRootLayout()
             .open(this._bottomSheetView, {
                 shadeCover: {
@@ -78,7 +78,7 @@ export class UIService {
     }
 
     showSecondaryBottomSheet(): void {
-        this._secondaryBottomSheetView = this._getView(
+        this._secondaryBottomSheetView = this.getView(
             SecondaryBottomsheetComponent
         );
         getRootLayout()
@@ -123,7 +123,7 @@ export class UIService {
     }
 
     showCustomModal(): void {
-        this._customModal = this._getView(CustomModalComponent);
+        this._customModal = this.getView(CustomModalComponent);
         getRootLayout()
             .open(this._customModal, {
                 // TODO: shadecover is required to run close animation - this is not right
@@ -181,7 +181,7 @@ export class UIService {
     }
 
     showSnackbar(): void {
-        this._snackbar = this._getView(SnackbarComponent);
+        this._snackbar = this.getView(SnackbarComponent);
         getRootLayout()
             .open(this._snackbar, {
                 // TODO: shadecover is required to run close animation - this is not right
@@ -232,7 +232,7 @@ export class UIService {
         getRootLayout().closeAll();
     }
 
-    private _getView(component): View {
+    getView(component, input?: object): View {
         // We need to add the components into the module's entryComponents array to tell Angular that
         // the component will be loaded imperatively (we're not loading it by referencing it in the template)
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
@@ -254,6 +254,15 @@ export class UIService {
         }
 
         const componentRef = componentFactory.create(this.injector);
+
+        if (input) {
+            Object.keys(input).forEach((key) => {
+                componentRef.instance[key] = input[key];
+            });
+            // we have to manually call detectChanges to trigger
+            // change detection
+            componentRef.changeDetectorRef.detectChanges();
+        }
 
         return componentRef.location.nativeElement;
     }
