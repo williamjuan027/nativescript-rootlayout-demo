@@ -1,34 +1,32 @@
-import { Component } from "@angular/core";
-import { UIService, CardService, Character } from "../../core";
+import { Component } from '@angular/core';
+import { UIService, CardService, Character } from '../../core';
 
 @Component({
-    moduleId: module.id,
-    selector: "ns-home",
-    templateUrl: "./home.component.html",
+	moduleId: module.id,
+	selector: 'ns-home',
+	templateUrl: './home.component.html',
 })
 export class HomeComponent {
-    constructor(
-        private uiService: UIService,
-        private cardService: CardService
-    ) {}
+	constructor(private uiService: UIService, private cardService: CardService) {}
 
-    showBottomSheet(): void {
-        this.uiService.showBottomSheet();
-    }
+	showBottomSheet(): void {
+		this.uiService.showBottomSheet();
+	}
 
-    showMiniBottomSheet(): void {
-        this.uiService.showSecondaryBottomSheet();
-    }
+	showMiniBottomSheet(): void {
+		this.uiService.showSecondaryBottomSheet();
+	}
 
-    showSnackbar(): void {
-        this.uiService.showSnackbar();
-    }
+	showSnackbar(): void {
+		this.uiService.showSnackbar();
+	}
 
-    showCustomModal(): void {
-        this.uiService.showCustomModal();
-    }
+	showCustomModal(): void {
+		this.uiService.showCustomModal();
+	}
 
-    showRickAndMorty(): void {
-        this.cardService.openCard(Character.rick);
-    }
+	showRickAndMorty(): void {
+		this.cardService.openCard(Character.rick);
+		this.uiService.showBottomSheet(true);
+	}
 }

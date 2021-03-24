@@ -1,23 +1,23 @@
-import { Component } from "@angular/core";
-import { UIService } from "../../../core";
+import { Component } from '@angular/core';
+import { UIService } from '../../../core';
 
 @Component({
-    moduleId: module.id,
-    selector: "ns-secondary-bottomsheet",
-    templateUrl: "./secondary-bottomsheet.component.html",
+	moduleId: module.id,
+	selector: 'ns-secondary-bottomsheet',
+	templateUrl: './secondary-bottomsheet.component.html',
 })
 export class SecondaryBottomsheetComponent {
-    constructor(private uiService: UIService) {}
+	constructor(private uiService: UIService) {}
 
-    close(): void {
-        this.uiService.closeSecondaryBottomSheet();
-    }
+	close(): void {
+		this.uiService.closeSecondaryBottomSheet();
+	}
 
-    showSnackbar(): void {
-        this.uiService.showSnackbar();
-    }
+	showSnackbar(): void {
+		this.uiService.showSnackbar();
+	}
 
-    closeBottomsheet(): void {
-        this.uiService.closeBottomSheet();
-    }
+	closeBottomsheet(): void {
+		this.uiService.closeBottomSheet();
+	}
 }

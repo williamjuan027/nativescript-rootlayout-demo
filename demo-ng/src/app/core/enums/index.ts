@@ -1,1 +1,1 @@
-export * from "./character.enum";
+export * from './character.enum';

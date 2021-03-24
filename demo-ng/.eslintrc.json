@@ -1,0 +1,13 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"sourceType": "module",
+		"ecmaVersion": 2015
+	},
+	"plugins": ["@nativescript"],
+	"rules": {
+		"@nativescript/no-nativescript-angular-imports": "warn",
+		"@nativescript/no-tns-core-modules-imports": "warn",
+		"@nativescript/no-duplicate-ns-imports": "warn"
+	}
+}

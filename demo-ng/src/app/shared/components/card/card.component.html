@@ -1,12 +1,10 @@
 <GridLayout iosOverflowSafeArea="false" verticalAlignment="center">
-    <StackLayout verticalAlignment="center" padding="30" margin="20" background="linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.3), #fff)" borderRadius="25 25 24 25">
-        <ng-container *ngIf="getCharacterOptions() as characterOptions">
-            <Label color="#000" fontWeight="bold" textAlignment="center" fontSize="18" marginBottom="15" [text]="'Hi, I\'m ' + character" textWrap="true"></Label>
-            <Image [src]="characters[character]" height="200" width="200" stretch="aspectFit"></Image>
-            <ng-container *ngFor="let characterOption of characterOptions">
-                <Button fontWeight="bold" [text]="'Show ' + characterOption | uppercase" class="bg-accent-primary" color="#222" (tap)="bringToFront(characterOption)"></Button>
-            </ng-container>
-            <Button fontWeight="bold" text="CLOSE" class="bg-accent-primary" color="#222" (tap)="close()"></Button>
-        </ng-container>
-    </StackLayout>
+	<StackLayout verticalAlignment="center" padding="30" margin="20" background="linear-gradient(to bottom, #fff, rgba(255, 255, 255, 0.5), #fff)" borderRadius="25 25 24 25">
+		<!-- <ng-container *ngIf="getCharacterOptions() as characterOptions"> -->
+		<Label textAlignment="center" fontSize="18" marginBottom="15" [text]="'Hi, I\'m ' + character" textWrap="true" class="character-title"></Label>
+		<Image [src]="cardService.characters[character]" height="200" width="200" stretch="aspectFit" [marginLeft]="marginLeft"></Image>
+
+		<!-- <Button fontWeight="bold" text="Ok, bye bye now" class="bg-accent-primary" color="#222" (tap)="close()"></Button> -->
+		<!-- </ng-container> -->
+	</StackLayout>
 </GridLayout>

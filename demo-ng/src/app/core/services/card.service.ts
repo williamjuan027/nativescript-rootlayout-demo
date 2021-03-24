@@ -1,89 +1,115 @@
-import { ComponentFactoryResolver, Injectable, Injector } from "@angular/core";
-import { isKnownView, registerElement } from "@nativescript/angular";
-import {
-    ContentView,
-    getRootLayout,
-    View,
-    GridLayout,
-} from "@nativescript/core";
-import { AnimationCurve } from "@nativescript/core/ui/enums";
-import { CardComponent } from "../../shared/components";
-import { Character } from "../enums";
-import { DEFAULT_ANIMATION_CURVE, UIService } from "./ui.service";
+import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
+import { isKnownView, registerElement } from '@nativescript/angular';
+import { ContentView, getRootLayout, View, GridLayout } from '@nativescript/core';
+import { CardComponent } from '../../shared/components';
+import { Character } from '../enums';
+import { DEFAULT_ANIMATION_CURVE, UIService } from './ui.service';
+
+// Bad/deprecated import that should still work in 8, TODO: need to fix in core
+// import { AnimationCurve } from "@nativescript/core/ui/enums";
 
 @Injectable({
-    providedIn: "root",
+	providedIn: 'root',
 })
 export class CardService {
-    private _characterCards = {};
+	characters = {
+		rick: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Rick_Sanchez.png',
+		morty: 'https://upload.wikimedia.org/wikipedia/en/c/c3/Morty_Smith.png',
+		squanchy: 'https://static.wikia.nocookie.net/rickandmorty/images/1/16/Squanchy_.png',
+		summer: 'https://i.pinimg.com/originals/75/ad/2c/75ad2cae483ea8d808dc4b8997eb1948.png',
+	};
+	private _characterCards = {};
 
-    constructor(private uiService: UIService) {}
+	constructor(private uiService: UIService) {}
 
-    bringCardToFront(character: Character): Promise<void> {
-        if (this._characterCards[character]) {
-            return getRootLayout()
-                .bringToFront(this._characterCards[character], true)
-                .catch((err) => {
-                    console.log("error bring to front", err);
-                });
-        } else {
-            return this.openCard(character);
-        }
-    }
+	bringCardToFront(character: Character): Promise<void> {
+		if (this._characterCards[character]) {
+			return getRootLayout()
+				.bringToFront(this._characterCards[character], true)
+				.catch((err) => {
+					console.log('error bring to front', err);
+				});
+		} else {
+			return this.openCard(character);
+		}
+	}
 
-    openCard(character: Character): Promise<void> {
-        if (!this._characterCards[character]) {
-            const cardView = this.uiService.getView(CardComponent, {
-                character: character,
-            });
-            return getRootLayout()
-                .open(cardView, {
-                    shadeCover: {
-                        color: "#000",
-                        opacity: 0.4,
-                        tapToClose: true,
-                    },
-                    animation: {
-                        enterFrom: {
-                            // TODO: translateY with negative was causing problems when iosOverflowSafeArea is true (by default)
-                            // translateY: -300,
-                            translateX: 350,
-                            // opacity: 0,
-                            // scaleX: 0.5,
-                            // scaleY: 0.5,
-                            duration: 300,
-                            curve: DEFAULT_ANIMATION_CURVE,
-                        },
-                        exitTo: {
-                            translateX: 350,
-                            // translateY: -300,
-                            // opacity: 0,
-                            // scaleX: 0.5,
-                            // scaleY: 0.5,
-                            duration: 300,
-                            curve: DEFAULT_ANIMATION_CURVE,
-                        },
-                    },
-                })
-                .then(() => {
-                    this._characterCards[character] = cardView;
-                })
-                .catch((err) => {
-                    console.log("error open", err);
-                });
-        }
-    }
+	openCard(character: Character): Promise<void> {
+		if (!this._characterCards[character]) {
+			const cardView = this.uiService.getView(CardComponent, {
+				character: character,
+			});
+			return getRootLayout()
+				.open(cardView, {
+					shadeCover: {
+						color: '#000',
+						opacity: 0.4,
+						tapToClose: true,
+					},
+					animation: {
+						enterFrom: {
+							// TODO: translateY with negative was causing problems when iosOverflowSafeArea is true (by default)
+							// translateY: -300,
+							translateX: 350,
+							// opacity: 0,
+							// scaleX: 0.5,
+							// scaleY: 0.5,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+						exitTo: {
+							translateX: 350,
+							// translateY: -300,
+							// opacity: 0,
+							// scaleX: 0.5,
+							// scaleY: 0.5,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+					},
+				})
+				.then(() => {
+					this._characterCards[character] = cardView;
+				})
+				.catch((err) => {
+					console.log('error open', err);
+				});
+		}
+	}
 
-    closeCard(character: Character): Promise<void> {
-        if (this._characterCards[character]) {
-            return getRootLayout()
-                .close(this._characterCards[character])
-                .then(() => {
-                    delete this._characterCards[character];
-                })
-                .catch((err) => {
-                    console.log("error close", err);
-                });
-        }
-    }
+	closeCard(character: Character): Promise<void> {
+		return new Promise((resolve) => {
+			if (this._characterCards[character]) {
+				getRootLayout()
+					.close(this._characterCards[character])
+					.then(() => {
+						delete this._characterCards[character];
+						resolve();
+					})
+					.catch((err) => {
+						console.log('error close', err);
+					});
+			}
+		});
+	}
+
+	closeAllCards() {
+		return new Promise((resolve) => {
+			let cnt = 0;
+			const cardKeys = Object.keys(this._characterCards);
+			const closeIt = () => {
+				const key = cardKeys[cnt];
+				this.closeCard(<any>key);
+				cnt++;
+				if (cnt === cardKeys.length) {
+					resolve();
+				} else {
+					setTimeout(() => {
+						closeIt();
+					}, 200);
+				}
+			};
+			closeIt();
+		});
+	}
 }

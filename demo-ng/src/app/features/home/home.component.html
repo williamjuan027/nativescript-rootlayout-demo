@@ -1,29 +1,23 @@
 <StackLayout padding="40 20 20 20">
-    <Label
-        text="Root Layout"
-        class="text-accent-primary"
-        fontWeight="bold"
-        fontSize="40"></Label>
-    
+	<Label text="Root Layout" class="text-accent-primary" fontWeight="bold" fontSize="40"></Label>
 
-    <FlexboxLayout flexDirection="row" flexWrap="wrap" marginTop="30">
-        <StackLayout flexGrow="1" class="home-option-container" (tap)="showBottomSheet()">
-            <Label text="Bottomsheet"></Label>
-        </StackLayout>
-        <StackLayout flexGrow="1" class="home-option-container" (tap)="showMiniBottomSheet()">
-            <Label text="Mini Bottomsheet"></Label>
-        </StackLayout>
-        <StackLayout flexGrow="1" class="home-option-container" (tap)="showCustomModal()">
-            <Label text="Custom Modal"></Label>
-        </StackLayout>
-        <StackLayout flexGrow="1" class="home-option-container" (tap)="showSnackbar()">
-            <Label text="Snackbar"></Label>
-        </StackLayout>
-        <StackLayout flexGrow="1" class="home-option-container" (tap)="showRickAndMorty()">
-            <Label text="Rick and Morty"></Label>
-        </StackLayout>
-    </FlexboxLayout>
+	<FlexboxLayout flexDirection="row" flexWrap="wrap" marginTop="30">
+		<StackLayout flexGrow="1" class="home-option-container" (tap)="showBottomSheet()">
+			<Label text="Bottomsheet"></Label>
+		</StackLayout>
+		<StackLayout flexGrow="1" class="home-option-container" (tap)="showMiniBottomSheet()">
+			<Label text="Mini Bottomsheet"></Label>
+		</StackLayout>
+		<StackLayout flexGrow="1" class="home-option-container" (tap)="showCustomModal()">
+			<Label text="Custom Modal"></Label>
+		</StackLayout>
+		<StackLayout flexGrow="1" class="home-option-container" (tap)="showSnackbar()">
+			<Label text="Snackbar"></Label>
+		</StackLayout>
+		<StackLayout flexGrow="1" class="home-option-container" (tap)="showRickAndMorty()">
+			<Label text="Rick and Morty"></Label>
+		</StackLayout>
+	</FlexboxLayout>
 
-
-    <!-- <Button (tap)="showBottomSheet()" text="SHOW BOTTOMSHEET"></Button> -->
+	<!-- <Button (tap)="showBottomSheet()" text="SHOW BOTTOMSHEET"></Button> -->
 </StackLayout>

@@ -1,16 +1,16 @@
 <GridLayout verticalAlignment="bottom" height="400" class="bg-accent-primary" padding="20 10" borderRadius="25 25 0 0" iosOverflowSafeArea="true">
-    <StackLayout padding="20">
-        <Label color="#000" fontWeight="bold" fontSize="18" marginBottom="15" text="Ok, what else?"></Label>
-        <StackLayout (tap)="showSnackbar()" class="button">
-            <Label text="Show me a snackbar!"></Label>
-        </StackLayout>
+	<StackLayout padding="20">
+		<Label color="#000" fontWeight="bold" fontSize="18" marginBottom="15" text="Ok, what else?"></Label>
+		<StackLayout (tap)="showSnackbar()" class="button">
+			<Label text="Show me a snackbar!"></Label>
+		</StackLayout>
 
-        <StackLayout (tap)="closeBottomsheet()" class="button">
-            <Label text="Hmm, close the bottomsheet behind me (if any)"></Label>
-        </StackLayout>
+		<StackLayout (tap)="closeBottomsheet()" class="button">
+			<Label text="Hmm, close the bottomsheet behind me (if any)"></Label>
+		</StackLayout>
 
-        <StackLayout (tap)="close()" class="button">
-            <Label text="Okay, thats enough. Close!"></Label>
-        </StackLayout>
-    </StackLayout>
+		<StackLayout (tap)="close()" class="button">
+			<Label text="Okay, thats enough. Close!"></Label>
+		</StackLayout>
+	</StackLayout>
 </GridLayout>
