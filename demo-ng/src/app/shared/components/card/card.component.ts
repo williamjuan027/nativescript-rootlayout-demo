@@ -35,4 +35,8 @@ export class CardComponent {
     bringToFront(characterOption: Character): void {
         this.cardService.bringCardToFront(characterOption);
     }
+
+    close(): void {
+        this.cardService.closeCard(this.character);
+    }
 }

@@ -19,20 +19,24 @@ export class CardService {
 
     constructor(private uiService: UIService) {}
 
-    bringCardToFront(character: Character): void {
+    bringCardToFront(character: Character): Promise<void> {
         if (this._characterCards[character]) {
-            getRootLayout().bringToFront(this._characterCards[character], true);
+            return getRootLayout()
+                .bringToFront(this._characterCards[character], true)
+                .catch((err) => {
+                    console.log("error bring to front", err);
+                });
         } else {
-            this.openCard(character);
+            return this.openCard(character);
         }
     }
 
-    openCard(character: Character): void {
+    openCard(character: Character): Promise<void> {
         if (!this._characterCards[character]) {
             const cardView = this.uiService.getView(CardComponent, {
                 character: character,
             });
-            getRootLayout()
+            return getRootLayout()
                 .open(cardView, {
                     shadeCover: {
                         color: "#000",
@@ -41,19 +45,21 @@ export class CardService {
                     },
                     animation: {
                         enterFrom: {
+                            // TODO: translateY with negative was causing problems when iosOverflowSafeArea is true (by default)
                             // translateY: -300,
-                            opacity: 0,
-                            scaleX: 0,
-                            scaleY: 0,
+                            translateX: 350,
+                            // opacity: 0,
+                            // scaleX: 0.5,
+                            // scaleY: 0.5,
                             duration: 300,
                             curve: DEFAULT_ANIMATION_CURVE,
                         },
-                        // TODO: Something is wrong with this
                         exitTo: {
+                            translateX: 350,
                             // translateY: -300,
-                            opacity: 0,
-                            scaleX: 0,
-                            scaleY: 0,
+                            // opacity: 0,
+                            // scaleX: 0.5,
+                            // scaleY: 0.5,
                             duration: 300,
                             curve: DEFAULT_ANIMATION_CURVE,
                         },
@@ -61,16 +67,22 @@ export class CardService {
                 })
                 .then(() => {
                     this._characterCards[character] = cardView;
+                })
+                .catch((err) => {
+                    console.log("error open", err);
                 });
         }
     }
 
-    closeCard(character: Character): void {
+    closeCard(character: Character): Promise<void> {
         if (this._characterCards[character]) {
-            getRootLayout()
+            return getRootLayout()
                 .close(this._characterCards[character])
                 .then(() => {
                     delete this._characterCards[character];
+                })
+                .catch((err) => {
+                    console.log("error close", err);
                 });
         }
     }
