@@ -87,6 +87,7 @@ export class CardService {
 				getRootLayout()
 					.close(this._characterCards[character])
 					.then(() => {
+						this.uiService.destroyNgRef(this._characterCards[character]);
 						delete this._characterCards[character];
 						resolve();
 					})

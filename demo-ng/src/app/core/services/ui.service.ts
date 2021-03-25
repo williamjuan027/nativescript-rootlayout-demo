@@ -1,7 +1,8 @@
-import { ComponentFactoryResolver, Injectable, Injector, NgZone } from '@angular/core';
+import { ComponentFactoryResolver, Injectable, Injector, NgZone, ApplicationRef, ComponentRef } from '@angular/core';
 import { isKnownView, registerElement, DetachedLoader } from '@nativescript/angular';
 import { getRootLayout, View, GridLayout, CoreTypes, ProxyViewContainer } from '@nativescript/core';
 import { BottomsheetComponent, CustomModalComponent, SecondaryBottomsheetComponent, CardBottomsheetComponent, SnackbarComponent } from '../../shared/components';
+import { GenericParams } from '../tokens';
 
 // Bad/deprecated import that should still work in 8, TODO: need to fix in core
 // import { AnimationCurve } from "@nativescript/core/ui/enums";
@@ -12,7 +13,7 @@ export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.cubicBezier(0.17
 	providedIn: 'root',
 })
 export class UIService {
-	constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {}
+	constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver, private applicationRef: ApplicationRef) { }
 
 	private _bottomSheetView;
 	private _secondaryBottomSheetView;
@@ -27,10 +28,10 @@ export class UIService {
 					shadeCover: forCard
 						? null
 						: {
-								color: '#FFF',
-								opacity: forCard ? 0 : 0.7,
-								tapToClose: true,
-						  },
+							color: '#FFF',
+							opacity: forCard ? 0 : 0.7,
+							tapToClose: true,
+						},
 					animation: {
 						enterFrom: {
 							translateY: 500,
@@ -62,6 +63,7 @@ export class UIService {
 			getRootLayout()
 				.close(this._bottomSheetView)
 				.then(() => {
+					this.destroyNgRef(this._bottomSheetView);
 					console.log('closed');
 				})
 				.catch((err) => {
@@ -107,6 +109,7 @@ export class UIService {
 			getRootLayout()
 				.close(this._secondaryBottomSheetView)
 				.then(() => {
+					this.destroyNgRef(this._secondaryBottomSheetView);
 					console.log('closed');
 				})
 				.catch((err) => {
@@ -166,6 +169,7 @@ export class UIService {
 			getRootLayout()
 				.close(this._customModal)
 				.then(() => {
+					this.destroyNgRef(this._customModal);
 					console.log('closed');
 				})
 				.catch((err) => {
@@ -216,6 +220,7 @@ export class UIService {
 			getRootLayout()
 				.close(this._snackbar)
 				.then(() => {
+					this.destroyNgRef(this._snackbar);
 					console.log('closed');
 				})
 				.catch((err) => {
@@ -228,39 +233,17 @@ export class UIService {
 		getRootLayout().closeAll();
 	}
 
+	destroyNgRef(view: View) {
+		if((<any>view).__ngRef) {
+			((<any>view).__ngRef as ComponentRef<View>).destroy();
+		}
+	}
+
 	getView(component, input?: any): Promise<View> {
 		return new Promise((resolve) => {
-			// const childInjector = Injector.create({
-			//   providers: [],
-			//   // parent: options.containerRef.injector,
-			// });
-			// const detachedFactory = this.componentFactoryResolver.resolveComponentFactory(DetachedLoader);
-			// const detachedLoaderRef = detachedFactory.create(this.injector);
-			// let componentView: View;
-			// // detachedLoaderRef = options.containerRef.createComponent(detachedFactory, 0, childInjector, null);
-			// this.zone.run(() => {
-			// 	detachedLoaderRef.instance.loadComponent(component).then((compRef) => {
-			// 		if (input) {
-			// 			Object.keys(input).forEach((key) => {
-			// 				compRef.instance[key] = input[key];
-			// 			});
-			// 		}
-			// 		const detachedProxy = <ProxyViewContainer>compRef.location.nativeElement;
-
-			// 		componentView = detachedProxy.getChildAt(0);
-
-			// 		if (componentView.parent) {
-			// 			// (<any>componentView.parent)._ngDialogRoot = componentView;
-			// 			(<any>componentView.parent).removeChild(componentView);
-			// 		}
-			// 		resolve(componentView);
-
-			// 		// options.parentView.showModal(componentView, { ...options, closeCallback });
-			// 	});
-			// });
 			// We need to add the components into the module's entryComponents array to tell Angular that
 			// the component will be loaded imperatively (we're not loading it by referencing it in the template)
-			const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+			const componentFactory = this.componentFactoryResolver.resolveComponentFactory<View>(component);
 
 			// NOTE: This has to happen prior to creating the component or the animation won't work
 			// Related to the following issues:
@@ -268,25 +251,34 @@ export class UIService {
 			// https://github.com/NativeScript/nativescript-angular/issues/1547
 			// There is an issue with ProxyViewContainer not having some layout/view related information
 			// that makes it not animatable
-			if (!isKnownView(componentFactory.selector)) {
-				// registerElement(componentFactory.selector, () => ContentView);
-				// TODO: For some reason if its set as ContentView or StackLayout, animating scaleX and scaleY
-				// messes up the position of the element (tested on ios simulator)
-				registerElement(componentFactory.selector, () => GridLayout);
-			}
-
-			const componentRef = componentFactory.create(this.injector);
-
-			if (input) {
-				Object.keys(input).forEach((key) => {
-					componentRef.instance[key] = input[key];
+			// if (!isKnownView(componentFactory.selector)) {
+			// 	// registerElement(componentFactory.selector, () => ContentView);
+			// 	// TODO: For some reason if its set as ContentView or StackLayout, animating scaleX and scaleY
+			// 	// messes up the position of the element (tested on ios simulator)
+			// 	registerElement(componentFactory.selector, () => GridLayout);
+			// }
+			this.zone.run(() => {
+				const childInjector = Injector.create({
+					providers: [{ provide: GenericParams, useValue: input }],
+					parent: this.injector
 				});
-				// we have to manually call detectChanges to trigger
-				// change detection
-				componentRef.changeDetectorRef.detectChanges();
-			}
+				const componentRef = componentFactory.create(childInjector);
+				let componentView = componentRef.location.nativeElement;
+				if(componentView instanceof ProxyViewContainer) {
+					componentView = componentView.getChildAt(0);
+				}
 
-			resolve(componentRef.location.nativeElement);
+				if (componentView.parent) {
+					// (<any>componentView.parent)._ngDialogRoot = componentView;
+					(<any>componentView.parent).removeChild(componentView);
+				}
+				(<any>componentView).__ngRef = componentRef;
+				this.applicationRef.attachView(componentRef.hostView);
+				componentRef.changeDetectorRef.detectChanges();
+
+				resolve(componentView);
+			});
+
 		});
 	}
 }

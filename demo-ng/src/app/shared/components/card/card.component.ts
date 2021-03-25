@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { CardService, Character, UIService } from '../../../core';
+import { Component, Inject, Input, Optional } from '@angular/core';
+import { CardService, Character, GenericParams, UIService } from '../../../core';
 
 @Component({
 	moduleId: module.id,
@@ -10,9 +10,12 @@ export class CardComponent {
 	@Input() character: Character;
 	marginLeft: number;
 
-	constructor(private uiService: UIService, public cardService: CardService) {}
+	constructor(private uiService: UIService, public cardService: CardService, @Inject(GenericParams) @Optional() private input: any) {}
 
 	ngOnInit() {
+		if(this.input?.character) {
+			this.character = this.input.character;
+		}
 		switch (this.character) {
 			case 'rick':
 				this.marginLeft = -70;
