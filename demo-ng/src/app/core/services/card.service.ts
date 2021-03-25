@@ -35,46 +35,50 @@ export class CardService {
 	}
 
 	openCard(character: Character): Promise<void> {
-		if (!this._characterCards[character]) {
-			const cardView = this.uiService.getView(CardComponent, {
-				character: character,
-			});
-			return getRootLayout()
-				.open(cardView, {
-					shadeCover: {
-						color: '#000',
-						opacity: 0.4,
-						tapToClose: true,
-					},
-					animation: {
-						enterFrom: {
-							// TODO: translateY with negative was causing problems when iosOverflowSafeArea is true (by default)
-							// translateY: -300,
-							translateX: 350,
-							// opacity: 0,
-							// scaleX: 0.5,
-							// scaleY: 0.5,
-							duration: 300,
-							curve: DEFAULT_ANIMATION_CURVE,
-						},
-						exitTo: {
-							translateX: 350,
-							// translateY: -300,
-							// opacity: 0,
-							// scaleX: 0.5,
-							// scaleY: 0.5,
-							duration: 300,
-							curve: DEFAULT_ANIMATION_CURVE,
-						},
-					},
-				})
-				.then(() => {
-					this._characterCards[character] = cardView;
-				})
-				.catch((err) => {
-					console.log('error open', err);
-				});
-		}
+    return new Promise(resolve => {
+      if (!this._characterCards[character]) {
+        this.uiService.getView(CardComponent, {
+          character: character,
+        }).then(cardView => {
+          return getRootLayout()
+            .open(cardView, {
+              shadeCover: {
+                color: '#000',
+                opacity: 0.4,
+                tapToClose: true,
+              },
+              animation: {
+                enterFrom: {
+                  // TODO: translateY with negative was causing problems when iosOverflowSafeArea is true (by default)
+                  // translateY: -300,
+                  translateX: 350,
+                  // opacity: 0,
+                  // scaleX: 0.5,
+                  // scaleY: 0.5,
+                  duration: 300,
+                  curve: DEFAULT_ANIMATION_CURVE,
+                },
+                exitTo: {
+                  translateX: 350,
+                  // translateY: -300,
+                  // opacity: 0,
+                  // scaleX: 0.5,
+                  // scaleY: 0.5,
+                  duration: 300,
+                  curve: DEFAULT_ANIMATION_CURVE,
+                },
+              },
+            })
+            .then(() => {
+              this._characterCards[character] = cardView;
+              resolve();
+            })
+            .catch((err) => {
+              console.log('error open', err);
+            });
+        })
+      }
+    })
 	}
 
 	closeCard(character: Character): Promise<void> {

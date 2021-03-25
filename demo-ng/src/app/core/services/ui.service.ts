@@ -1,6 +1,6 @@
-import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
-import { isKnownView, registerElement } from '@nativescript/angular';
-import { getRootLayout, View, GridLayout, CoreTypes } from '@nativescript/core';
+import { ComponentFactoryResolver, Injectable, Injector, NgZone } from '@angular/core';
+import { isKnownView, registerElement, DetachedLoader } from '@nativescript/angular';
+import { getRootLayout, View, GridLayout, CoreTypes, ProxyViewContainer } from '@nativescript/core';
 import { BottomsheetComponent, CustomModalComponent, SecondaryBottomsheetComponent, CardBottomsheetComponent, SnackbarComponent } from '../../shared/components';
 
 // Bad/deprecated import that should still work in 8, TODO: need to fix in core
@@ -12,42 +12,45 @@ export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.cubicBezier(0.17
 	providedIn: 'root',
 })
 export class UIService {
-	constructor(private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {}
+	constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver) {}
 
 	private _bottomSheetView;
 	private _secondaryBottomSheetView;
 	private _snackbar;
 	private _customModal;
+
 	showBottomSheet(forCard?: boolean): void {
-		this._bottomSheetView = this.getView(forCard ? CardBottomsheetComponent : BottomsheetComponent);
-		getRootLayout()
-			.open(this._bottomSheetView, {
-				shadeCover: forCard
-					? null
-					: {
-							color: '#FFF',
-							opacity: forCard ? 0 : 0.7,
-							tapToClose: true,
-					  },
-				animation: {
-					enterFrom: {
-						translateY: 500,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+		this.getView(forCard ? CardBottomsheetComponent : BottomsheetComponent).then((v) => {
+			this._bottomSheetView = v;
+			getRootLayout()
+				.open(this._bottomSheetView, {
+					shadeCover: forCard
+						? null
+						: {
+								color: '#FFF',
+								opacity: forCard ? 0 : 0.7,
+								tapToClose: true,
+						  },
+					animation: {
+						enterFrom: {
+							translateY: 500,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+						exitTo: {
+							translateY: 500,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
 					},
-					exitTo: {
-						translateY: 500,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
-					},
-				},
-			})
-			.then(() => {
-				console.log('opened');
-			})
-			.catch((err) => {
-				console.log('error opening', err);
-			});
+				})
+				.then(() => {
+					console.log('opened');
+				})
+				.catch((err) => {
+					console.log('error opening', err);
+				});
+		});
 	}
 
 	bringBottomSheetToFront() {
@@ -68,33 +71,35 @@ export class UIService {
 	}
 
 	showSecondaryBottomSheet(): void {
-		this._secondaryBottomSheetView = this.getView(SecondaryBottomsheetComponent);
-		getRootLayout()
-			.open(this._secondaryBottomSheetView, {
-				shadeCover: {
-					color: '#FFF',
-					opacity: 0.7,
-					tapToClose: true,
-				},
-				animation: {
-					enterFrom: {
-						translateY: 500,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+		this.getView(SecondaryBottomsheetComponent).then((v) => {
+			this._secondaryBottomSheetView = v;
+			getRootLayout()
+				.open(this._secondaryBottomSheetView, {
+					shadeCover: {
+						color: '#FFF',
+						opacity: 0.7,
+						tapToClose: true,
 					},
-					exitTo: {
-						translateY: 500,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+					animation: {
+						enterFrom: {
+							translateY: 500,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+						exitTo: {
+							translateY: 500,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
 					},
-				},
-			})
-			.then(() => {
-				console.log('opened');
-			})
-			.catch((err) => {
-				console.log('error opening', err);
-			});
+				})
+				.then(() => {
+					console.log('opened');
+				})
+				.catch((err) => {
+					console.log('error opening', err);
+				});
+		});
 	}
 
 	closeSecondaryBottomSheet(): void {
@@ -111,47 +116,49 @@ export class UIService {
 	}
 
 	showCustomModal(): void {
-		this._customModal = this.getView(CustomModalComponent);
-		getRootLayout()
-			.open(this._customModal, {
-				// TODO: shadecover is required to run close animation - this is not right
-				shadeCover: {
-					color: '#FFF',
-					opacity: 0.7,
-					tapToClose: true,
-				},
-				animation: {
-					// TODO: transition without translate X/Y doesn't align elements to center,
-					// should fix that
-					enterFrom: {
-						// translateX: 200,
-						translateY: -200,
-						// scaleX: 0,
-						// scaleY: 0,
-						// rotate: 180,
-						// opacity: 0,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+		this.getView(CustomModalComponent).then((v) => {
+			this._customModal = v;
+			getRootLayout()
+				.open(this._customModal, {
+					// TODO: shadecover is required to run close animation - this is not right
+					shadeCover: {
+						color: '#FFF',
+						opacity: 0.7,
+						tapToClose: true,
 					},
-					// TODO: Something is wrong with this
-					exitTo: {
-						// translateX: 200,
-						translateY: -200,
-						// scaleX: 0,
-						// scaleY: 0,
-						// rotate: -180,
-						opacity: 0,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+					animation: {
+						// TODO: transition without translate X/Y doesn't align elements to center,
+						// should fix that
+						enterFrom: {
+							// translateX: 200,
+							translateY: -200,
+							// scaleX: 0,
+							// scaleY: 0,
+							// rotate: 180,
+							// opacity: 0,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+						// TODO: Something is wrong with this
+						exitTo: {
+							// translateX: 200,
+							translateY: -200,
+							// scaleX: 0,
+							// scaleY: 0,
+							// rotate: -180,
+							opacity: 0,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
 					},
-				},
-			})
-			.then(() => {
-				console.log('opened');
-			})
-			.catch((err) => {
-				console.log('error opening', err);
-			});
+				})
+				.then(() => {
+					console.log('opened');
+				})
+				.catch((err) => {
+					console.log('error opening', err);
+				});
+		});
 	}
 
 	closeCustomModal(): void {
@@ -168,38 +175,40 @@ export class UIService {
 	}
 
 	showSnackbar(): void {
-		this._snackbar = this.getView(SnackbarComponent);
-		getRootLayout()
-			.open(this._snackbar, {
-				// TODO: shadecover is required to run close animation - this is not right
-				shadeCover: {
-					color: '#FFF',
-					opacity: 0.7,
-					tapToClose: true,
-				},
-				animation: {
-					enterFrom: {
-						translateY: -300,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+		this.getView(SnackbarComponent).then((v) => {
+			this._snackbar = v;
+			getRootLayout()
+				.open(this._snackbar, {
+					// TODO: shadecover is required to run close animation - this is not right
+					shadeCover: {
+						color: '#FFF',
+						opacity: 0.7,
+						tapToClose: true,
 					},
-					// TODO: Something is wrong with this
-					exitTo: {
-						translateY: -300,
-						duration: 300,
-						curve: DEFAULT_ANIMATION_CURVE,
+					animation: {
+						enterFrom: {
+							translateY: -300,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
+						// TODO: Something is wrong with this
+						exitTo: {
+							translateY: -300,
+							duration: 300,
+							curve: DEFAULT_ANIMATION_CURVE,
+						},
 					},
-				},
-			})
-			.then(() => {
-				console.log('opened');
-				setTimeout(() => {
-					this.closeSnackbar();
-				}, 1000);
-			})
-			.catch((err) => {
-				console.log('error opening', err);
-			});
+				})
+				.then(() => {
+					console.log('opened');
+					setTimeout(() => {
+						this.closeSnackbar();
+					}, 1000);
+				})
+				.catch((err) => {
+					console.log('error opening', err);
+				});
+		});
 	}
 
 	closeSnackbar(): void {
@@ -219,35 +228,65 @@ export class UIService {
 		getRootLayout().closeAll();
 	}
 
-	getView(component, input?: object): View {
-		// We need to add the components into the module's entryComponents array to tell Angular that
-		// the component will be loaded imperatively (we're not loading it by referencing it in the template)
-		const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+	getView(component, input?: any): Promise<View> {
+		return new Promise((resolve) => {
+			// const childInjector = Injector.create({
+			//   providers: [],
+			//   // parent: options.containerRef.injector,
+			// });
+			// const detachedFactory = this.componentFactoryResolver.resolveComponentFactory(DetachedLoader);
+			// const detachedLoaderRef = detachedFactory.create(this.injector);
+			// let componentView: View;
+			// // detachedLoaderRef = options.containerRef.createComponent(detachedFactory, 0, childInjector, null);
+			// this.zone.run(() => {
+			// 	detachedLoaderRef.instance.loadComponent(component).then((compRef) => {
+			// 		if (input) {
+			// 			Object.keys(input).forEach((key) => {
+			// 				compRef.instance[key] = input[key];
+			// 			});
+			// 		}
+			// 		const detachedProxy = <ProxyViewContainer>compRef.location.nativeElement;
 
-		// NOTE: This has to happen prior to creating the component or the animation won't work
-		// Related to the following issues:
-		// https://github.com/NativeScript/nativescript-angular/issues/1691
-		// https://github.com/NativeScript/nativescript-angular/issues/1547
-		// There is an issue with ProxyViewContainer not having some layout/view related information
-		// that makes it not animatable
-		if (!isKnownView(componentFactory.selector)) {
-			// registerElement(componentFactory.selector, () => ContentView);
-			// TODO: For some reason if its set as ContentView or StackLayout, animating scaleX and scaleY
-			// messes up the position of the element (tested on ios simulator)
-			registerElement(componentFactory.selector, () => GridLayout);
-		}
+			// 		componentView = detachedProxy.getChildAt(0);
 
-		const componentRef = componentFactory.create(this.injector);
+			// 		if (componentView.parent) {
+			// 			// (<any>componentView.parent)._ngDialogRoot = componentView;
+			// 			(<any>componentView.parent).removeChild(componentView);
+			// 		}
+			// 		resolve(componentView);
 
-		if (input) {
-			Object.keys(input).forEach((key) => {
-				componentRef.instance[key] = input[key];
-			});
-			// we have to manually call detectChanges to trigger
-			// change detection
-			componentRef.changeDetectorRef.detectChanges();
-		}
+			// 		// options.parentView.showModal(componentView, { ...options, closeCallback });
+			// 	});
+			// });
+			// We need to add the components into the module's entryComponents array to tell Angular that
+			// the component will be loaded imperatively (we're not loading it by referencing it in the template)
+			const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
 
-		return componentRef.location.nativeElement;
+			// NOTE: This has to happen prior to creating the component or the animation won't work
+			// Related to the following issues:
+			// https://github.com/NativeScript/nativescript-angular/issues/1691
+			// https://github.com/NativeScript/nativescript-angular/issues/1547
+			// There is an issue with ProxyViewContainer not having some layout/view related information
+			// that makes it not animatable
+			if (!isKnownView(componentFactory.selector)) {
+				// registerElement(componentFactory.selector, () => ContentView);
+				// TODO: For some reason if its set as ContentView or StackLayout, animating scaleX and scaleY
+				// messes up the position of the element (tested on ios simulator)
+				registerElement(componentFactory.selector, () => GridLayout);
+			}
+
+			const componentRef = componentFactory.create(this.injector);
+
+			if (input) {
+				Object.keys(input).forEach((key) => {
+					componentRef.instance[key] = input[key];
+				});
+				// we have to manually call detectChanges to trigger
+				// change detection
+				componentRef.changeDetectorRef.detectChanges();
+			}
+
+			resolve(componentRef.location.nativeElement);
+		});
 	}
 }
