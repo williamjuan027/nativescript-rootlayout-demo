@@ -1,4 +1,4 @@
-<GridLayout rows="auto,auto,*" columns="*,*,*,*" verticalAlignment="bottom" backgroundColor="#a6eee6ff" height="120" padding="20 10" borderRadius="25 25 0 0" class="card-bottomsheet">
+<GridLayout rows="auto,auto,*" columns="*,*,*,*" verticalAlignment="bottom" backgroundColor="#a6eee6ff" [height]="isAndroid ? 160 : 120" padding="20 10" borderRadius="25 25 0 0" class="card-bottomsheet">
 	<!-- <Button col="0" [text]="'Hi ' + options[0] | uppercase" class="button-plain" (tap)="viewCard(options[0])"></Button>
   <Button col="1" [text]="'Hi ' + options[1] | uppercase" class="button-plain" (tap)="viewCard(options[1])"></Button>
   <Button col="2" [text]="'Hi ' + options[2] | uppercase" class="button-plain" (tap)="viewCard(options[2])"></Button>

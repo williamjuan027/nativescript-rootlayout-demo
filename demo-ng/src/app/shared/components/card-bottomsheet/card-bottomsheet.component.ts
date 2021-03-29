@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { isAndroid } from '@nativescript/core';
 import { CardService, UIService } from '../../../core';
 
 @Component({
@@ -7,6 +8,7 @@ import { CardService, UIService } from '../../../core';
 	templateUrl: './card-bottomsheet.component.html',
 })
 export class CardBottomsheetComponent {
+	isAndroid = isAndroid;
 	options;
 	constructor(private uiService: UIService, public cardService: CardService) {
 		this.options = Object.keys(this.cardService.characters);
