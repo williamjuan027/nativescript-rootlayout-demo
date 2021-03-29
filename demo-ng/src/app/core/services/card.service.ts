@@ -1,6 +1,5 @@
-import { ComponentFactoryResolver, Injectable, Injector } from '@angular/core';
-import { isKnownView, registerElement } from '@nativescript/angular';
-import { ContentView, getRootLayout, View, GridLayout } from '@nativescript/core';
+import { Injectable } from '@angular/core';
+import { getRootLayout } from '@nativescript/core';
 import { CardComponent } from '../../shared/components';
 import { Character } from '../enums';
 import { DEFAULT_ANIMATION_CURVE, UIService } from './ui.service';
