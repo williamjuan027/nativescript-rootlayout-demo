@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Page } from '@nativescript/core';
 import { UIService, CardService, Character } from '../../core';
 
 @Component({
@@ -7,7 +8,18 @@ import { UIService, CardService, Character } from '../../core';
 	templateUrl: './home.component.html',
 })
 export class HomeComponent {
-	constructor(private uiService: UIService, private cardService: CardService) {}
+	options = [
+		{ displayName: 'Bottom Sheet', preview: '~/assets/images/bottomsheet.png', onTap: () => this.showBottomSheet() },
+		{ displayName: 'Mini Bottom Sheet', preview: '~/assets/images/mini-bottomsheet.png', onTap: () => this.showMiniBottomSheet() },
+		{ displayName: 'Custom Modal', preview: '~/assets/images/modal.png', onTap: () => this.showCustomModal() },
+		{ displayName: 'Snackbar', preview: '~/assets/images/snackbar.png', onTap: () => this.showSnackbar() },
+		{ displayName: 'Sidebar', preview: '~/assets/images/sidebar.png', onTap: () => this.showSidebar() },
+		{ displayName: 'View Reorder', preview: '~/assets/images/view-reorder.png', onTap: () => this.showRickAndMorty() },
+	];
+
+	constructor(private page: Page, private uiService: UIService, private cardService: CardService) {
+		this.page.actionBarHidden = true;
+	}
 
 	showBottomSheet(): void {
 		this.uiService.showBottomSheet();
@@ -23,6 +35,10 @@ export class HomeComponent {
 
 	showCustomModal(): void {
 		this.uiService.showCustomModal();
+	}
+
+	showSidebar(): void {
+		// TODO
 	}
 
 	showRickAndMorty(): void {

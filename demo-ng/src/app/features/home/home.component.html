@@ -1,23 +1,19 @@
-<StackLayout padding="40 20 20 20">
-	<Label text="Root Layout" class="text-accent-primary" fontWeight="bold" fontSize="40"></Label>
+<ScrollView>
+	<StackLayout padding="40 20 20 20">
+		<Label text="Root Layout" class="text-accent-primary" fontWeight="bold" fontSize="40"></Label>
 
-	<FlexboxLayout flexDirection="row" flexWrap="wrap" marginTop="30">
-		<StackLayout flexGrow="1" class="home-option-container" (tap)="showBottomSheet()">
-			<Label text="Bottomsheet"></Label>
-		</StackLayout>
-		<StackLayout flexGrow="1" class="home-option-container" (tap)="showMiniBottomSheet()">
-			<Label text="Mini Bottomsheet"></Label>
-		</StackLayout>
-		<StackLayout flexGrow="1" class="home-option-container" (tap)="showCustomModal()">
-			<Label text="Custom Modal"></Label>
-		</StackLayout>
-		<StackLayout flexGrow="1" class="home-option-container" (tap)="showSnackbar()">
-			<Label text="Snackbar"></Label>
-		</StackLayout>
-		<StackLayout flexGrow="1" class="home-option-container" (tap)="showRickAndMorty()">
-			<Label text="Rick and Morty"></Label>
-		</StackLayout>
-	</FlexboxLayout>
-
-	<!-- <Button (tap)="showBottomSheet()" text="SHOW BOTTOMSHEET"></Button> -->
-</StackLayout>
+		<FlexboxLayout flexDirection="row" flexWrap="wrap" justifyContent="space-between" marginTop="15">
+			<ng-container *ngFor="let option of options">
+				<GridLayout width="49%" rows="auto" marginBottom="10">
+					<!-- accent shadow -->
+					<!-- TODO: this is a workaround since border radius and box shadows aren't compatible yet -->
+					<ContentView height="90%" width="90%" boxShadow="0 0 2 2 #63b0f5"> </ContentView>
+					<StackLayout class="home-option-container" (tap)="option.onTap()">
+						<Image [src]="option.preview" height="150" width="100%" stretch="aspectFill" borderRadius="10"></Image>
+						<Label [text]="option.displayName"></Label>
+					</StackLayout>
+				</GridLayout>
+			</ng-container>
+		</FlexboxLayout>
+	</StackLayout>
+</ScrollView>
