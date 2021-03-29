@@ -13,7 +13,7 @@ export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.cubicBezier(0.17
 	providedIn: 'root',
 })
 export class UIService {
-	constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver, private applicationRef: ApplicationRef) { }
+	constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver, private applicationRef: ApplicationRef) {}
 
 	private _bottomSheetView;
 	private _secondaryBottomSheetView;
@@ -28,10 +28,10 @@ export class UIService {
 					shadeCover: forCard
 						? null
 						: {
-							color: '#FFF',
-							opacity: forCard ? 0 : 0.7,
-							tapToClose: true,
-						},
+								color: '#FFF',
+								opacity: forCard ? 0 : 0.7,
+								tapToClose: true,
+						  },
 					animation: {
 						enterFrom: {
 							translateY: 500,
@@ -54,8 +54,8 @@ export class UIService {
 		});
 	}
 
-	bringBottomSheetToFront() {
-		getRootLayout().bringToFront(this._bottomSheetView);
+	bringBottomSheetToFront(): Promise<void> {
+		return getRootLayout().bringToFront(this._bottomSheetView);
 	}
 
 	closeBottomSheet(): void {
@@ -234,7 +234,7 @@ export class UIService {
 	}
 
 	destroyNgRef(view: View) {
-		if((<any>view).__ngRef) {
+		if ((<any>view).__ngRef) {
 			((<any>view).__ngRef as ComponentRef<View>).destroy();
 		}
 	}
@@ -260,11 +260,11 @@ export class UIService {
 			this.zone.run(() => {
 				const childInjector = Injector.create({
 					providers: [{ provide: GenericParams, useValue: input }],
-					parent: this.injector
+					parent: this.injector,
 				});
 				const componentRef = componentFactory.create(childInjector);
 				let componentView = componentRef.location.nativeElement;
-				if(componentView instanceof ProxyViewContainer) {
+				if (componentView instanceof ProxyViewContainer) {
 					componentView = componentView.getChildAt(0);
 				}
 
@@ -278,7 +278,6 @@ export class UIService {
 
 				resolve(componentView);
 			});
-
 		});
 	}
 }

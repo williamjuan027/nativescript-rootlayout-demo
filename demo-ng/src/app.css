@@ -58,17 +58,17 @@ Button.-primary {
     Containers
 */
 .home-option-container {
-	border-radius: 20 19 20 20; /* TODO: something is wrong when seeting border radius with all the same value */
-	padding: 15;
-	background-color: #dbecfc;
-	margin: 5;
+	padding: 5;
+	background-color: #fff;
+	border-radius: 15 14 15 15;
 }
 
 .home-option-container > Label {
-	font-size: 17;
+	font-size: 16;
 	text-align: center;
 	font-weight: bold;
 	text-wrap: true;
+	margin: 10 0;
 }
 
 .button {
