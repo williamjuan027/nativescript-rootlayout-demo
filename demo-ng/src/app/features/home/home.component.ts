@@ -38,7 +38,7 @@ export class HomeComponent {
 	}
 
 	showSidebar(): void {
-		// TODO
+		this.uiService.showSidebar();
 	}
 
 	showRickAndMorty(): void {

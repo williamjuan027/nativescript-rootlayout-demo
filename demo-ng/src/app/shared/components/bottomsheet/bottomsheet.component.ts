@@ -9,9 +9,6 @@ import { UIService } from '../../../core';
 export class BottomsheetComponent {
 	constructor(private uiService: UIService) {}
 
-  ngOnInit() {
-    console.log('bottom sheet ngoninit!')
-  }
 	close(): void {
 		this.uiService.closeBottomSheet();
 	}
