@@ -33,3 +33,28 @@ npm run start.android
 ```bash
 npm install -g nativescript@alpha
 ```
+
+## How to Use RootLayout
+
+`RootLayout` is meant to be used as the outermost container for your app. In Angular, this refers to the layout in your `app.component.html` which contains your `page-router-outlet` and other UI elements.
+
+```html
+<!-- app.component.html -->
+<RootLayout>
+  <page-router-outlet></page-router-outlet>
+</RootLayout>
+```
+
+_`RootLayout` related functionalities are handled in [`ui.service.ts`](https://github.com/williamjuan027/nativescript-rootlayout-demo/blob/master/demo-ng/src/app/core/services/ui.service.ts)_
+
+### RootLayout Methods
+
+`getRootLayout()` returns the RootLayout instance which has the following methods:
+
+| Method                          | Description                                                                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| open(view: View, options?: RootLayoutOptions): Promise<void> | Opens the target view |
+| close(view: View, exitTo?: TransitionAnimation): Promise<void> | Closes the target view |
+| bringToFront(view: View, animated?: boolean): Promise<void> | Moves the target view to the front (highest z-index) |
+| getShadeCover(): View | Returns the shade cover instance |
+
