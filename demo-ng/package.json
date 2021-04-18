@@ -1,67 +1,58 @@
 {
-	"name": "@nativescript/template-hello-world-ng",
-	"main": "main.js",
-	"version": "7.0.9",
-	"author": "NativeScript Team <oss@nativescript.org>",
-	"description": "NativeScript Application",
-	"license": "SEE LICENSE IN <your-license-filename>",
-	"publishConfig": {
-		"access": "public"
-	},
-	"keywords": [
-		"nativescript",
-		"mobile",
-		"angular",
-		"{N}",
-		"template"
-	],
-	"repository": "<fill-your-repository-here>",
-	"bugs": {
-		"url": "https://github.com/NativeScript/NativeScript/issues"
-	},
-	"scripts": {
-		"clean": "npx rimraf hooks node_modules package-lock.json && npm i",
-		"start.ios": "ns run ios --no-hmr",
-		"start.android": "ns run android --no-hmr",
-		"prepare": "cd .. && husky install demo-ng/.husky"
-	},
-	"dependencies": {
-		"@angular/animations": "~11.2.0",
-		"@angular/common": "~11.2.0",
-		"@angular/compiler": "~11.2.0",
-		"@angular/core": "~11.2.0",
-		"@angular/forms": "~11.2.0",
-		"@angular/platform-browser": "~11.2.0",
-		"@angular/platform-browser-dynamic": "~11.2.0",
-		"@angular/router": "~11.2.0",
-		"@nativescript/angular": "ns8",
-		"@nativescript/core": "alpha",
-		"@nativescript/theme": "~3.0.0",
-		"reflect-metadata": "~0.1.12",
-		"rxjs": "^6.6.0",
-		"zone.js": "~0.11.1"
-	},
-	"devDependencies": {
-		"@angular/compiler-cli": "~11.2.0",
-		"@nativescript/android": "7.0.1",
-		"@nativescript/eslint-plugin": "0.0.1",
-		"@nativescript/ios": "7.2.0",
-		"@nativescript/types": "~7.3.0",
-		"@nativescript/webpack": "~4.1.0",
-		"@ngtools/webpack": "~11.2.0",
-		"@prettier/plugin-xml": "^0.13.1",
-		"@typescript-eslint/parser": "^4.19.0",
-		"eslint": "^7.22.0",
-		"husky": "^5.2.0",
-		"lint-staged": "^10.5.4",
-		"prettier": "^2.2.1",
-		"typescript": "~4.0.0"
-	},
-	"lint-staged": {
-		"**/*.{ts,css,json,html}": [
-			"prettier --write"
-		]
-	},
-	"private": "true",
-	"readme": "NativeScript Application"
+  "name": "@nativescript/template-hello-world-ng",
+  "main": "src/main.ts",
+  "version": "8.0.5",
+  "author": "NativeScript Team <oss@nativescript.org>",
+  "description": "NativeScript Application",
+  "license": "SEE LICENSE IN <your-license-filename>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "App_Resources",
+    "hooks",
+    "src",
+    "tools",
+    "!tools/assets",
+    ".editorconfig",
+    "references.d.ts",
+    "tsconfig.json"
+  ],
+  "keywords": [
+    "nativescript",
+    "mobile",
+    "angular",
+    "{N}",
+    "template"
+  ],
+  "repository": "<fill-your-repository-here>",
+  "bugs": {
+    "url": "https://github.com/NativeScript/NativeScript/issues"
+  },
+  "dependencies": {
+    "@angular/animations": "~11.2.7",
+    "@angular/common": "~11.2.7",
+    "@angular/compiler": "~11.2.7",
+    "@angular/core": "~11.2.7",
+    "@angular/forms": "~11.2.7",
+    "@angular/platform-browser": "~11.2.7",
+    "@angular/platform-browser-dynamic": "~11.2.7",
+    "@angular/router": "~11.2.7",
+    "@nativescript/angular": "~11.8.0",
+    "@nativescript/core": "~8.0.0",
+    "@nativescript/theme": "~3.0.1",
+    "reflect-metadata": "~0.1.13",
+    "rxjs": "~6.6.7",
+    "zone.js": "~0.11.4"
+  },
+  "devDependencies": {
+    "@angular/compiler-cli": "~11.2.7",
+    "@nativescript/android": "8.0.0",
+    "@nativescript/types": "~8.0.0",
+    "@nativescript/webpack": "beta",
+    "@ngtools/webpack": "~11.2.6",
+    "typescript": "~4.0.0"
+  },
+  "private": "true",
+  "readme": "NativeScript Application"
 }
