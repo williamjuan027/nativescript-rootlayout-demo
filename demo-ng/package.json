@@ -29,6 +29,12 @@
   "bugs": {
     "url": "https://github.com/NativeScript/NativeScript/issues"
   },
+  "scripts": {
+		"clean": "npx rimraf hooks node_modules package-lock.json && npm i",
+		"start.ios": "ns run ios --no-hmr",
+		"start.android": "ns run android --no-hmr",
+		"prepare": "cd .. && husky install demo-ng/.husky"
+	},
   "dependencies": {
     "@angular/animations": "~11.2.7",
     "@angular/common": "~11.2.7",
