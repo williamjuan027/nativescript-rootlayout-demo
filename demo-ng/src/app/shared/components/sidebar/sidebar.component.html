@@ -1,21 +1,14 @@
-<StackLayout
-    height="100%"
-    width="75%"
-    class="bg-accent-primary"
-    padding="30 20"
-    borderRadius="0 15 15 0"
-    horizontalAlignment="left">
+<StackLayout height="100%" width="75%" class="bg-accent-primary" padding="30 20" borderRadius="0 15 15 0" horizontalAlignment="left">
 	<Label verticalAlignment="center" fontSize="25" fontWeight="bold" color="white" text="Sidebar"></Label>
 
-    <StackLayout (tap)="openBottomsheet()" class="button">
-        <Label text="Show me a bottomsheet"></Label>
-    </StackLayout>
-    <StackLayout (tap)="openCustomModal()" class="button">
-        <Label text="How about a modal?"></Label>
-    </StackLayout>
+	<StackLayout (tap)="openBottomsheet()" class="button">
+		<Label text="Show me a bottomsheet"></Label>
+	</StackLayout>
+	<StackLayout (tap)="openCustomModal()" class="button">
+		<Label text="How about a modal?"></Label>
+	</StackLayout>
 
-    <StackLayout (tap)="close()" class="button">
-        <Label text="Close"></Label>
-    </StackLayout>
-
+	<StackLayout (tap)="close()" class="button">
+		<Label text="Close"></Label>
+	</StackLayout>
 </StackLayout>

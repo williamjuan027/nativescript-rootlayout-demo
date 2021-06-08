@@ -1,4 +1,5 @@
 import { ComponentFactoryResolver, Injectable, Injector, NgZone, ApplicationRef, ComponentRef } from '@angular/core';
+import { generateNativeScriptView } from '@nativescript/angular';
 import { getRootLayout, View, CoreTypes, ProxyViewContainer } from '@nativescript/core';
 import { BottomsheetComponent, CustomModalComponent, SecondaryBottomsheetComponent, CardBottomsheetComponent, SnackbarComponent, SidebarComponent } from '../../shared/components';
 import { GenericParams } from '../tokens';
@@ -269,27 +270,11 @@ export class UIService {
 
 	getView(component, input?: any): Promise<View> {
 		return new Promise((resolve) => {
-			const componentFactory = this.componentFactoryResolver.resolveComponentFactory<View>(component);
-			this.zone.run(() => {
-				const childInjector = Injector.create({
-					providers: [{ provide: GenericParams, useValue: input }],
-					parent: this.injector,
-				});
-				const componentRef = componentFactory.create(childInjector);
-				let componentView = componentRef.location.nativeElement;
-				if (componentView instanceof ProxyViewContainer) {
-					componentView = componentView.getChildAt(0);
-				}
-
-				if (componentView.parent) {
-					(<any>componentView.parent).removeChild(componentView);
-				}
-				(<any>componentView).__ngRef = componentRef;
-				this.applicationRef.attachView(componentRef.hostView);
-				componentRef.changeDetectorRef.detectChanges();
-
-				resolve(componentView);
-			});
+      const cmpRef = generateNativeScriptView(component, {
+        injector: this.injector
+      });
+      (<any>cmpRef.firstNativeLikeView).__ngRef = cmpRef.ref;
+      resolve(cmpRef.firstNativeLikeView);
 		});
 	}
 }
