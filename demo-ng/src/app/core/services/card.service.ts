@@ -8,14 +8,14 @@ import { DEFAULT_ANIMATION_CURVE, UIService } from './ui.service';
 // import { AnimationCurve } from "@nativescript/core/ui/enums";
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'root'
 })
 export class CardService {
 	characters = {
 		rick: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Rick_Sanchez.png',
 		morty: 'https://upload.wikimedia.org/wikipedia/en/c/c3/Morty_Smith.png',
 		squanchy: 'https://static.wikia.nocookie.net/rickandmorty/images/1/16/Squanchy_.png',
-		summer: 'https://i.pinimg.com/originals/75/ad/2c/75ad2cae483ea8d808dc4b8997eb1948.png',
+		summer: 'https://i.pinimg.com/originals/75/ad/2c/75ad2cae483ea8d808dc4b8997eb1948.png'
 	};
 	private _characterCards = {};
 
@@ -25,7 +25,7 @@ export class CardService {
 		if (this._characterCards[character]) {
 			return getRootLayout()
 				.bringToFront(this._characterCards[character], true)
-				.catch((err) => {
+				.catch(err => {
 					console.log('error bring to front', err);
 				});
 		} else {
@@ -34,19 +34,19 @@ export class CardService {
 	}
 
 	openCard(character: Character): Promise<void> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			if (!this._characterCards[character]) {
 				this.uiService
 					.getView(CardComponent, {
-						character: character,
+						character: character
 					})
-					.then((cardView) => {
+					.then(cardView => {
 						return getRootLayout()
 							.open(cardView, {
 								shadeCover: {
 									color: '#000',
 									opacity: 0.4,
-									tapToClose: true,
+									tapToClose: true
 								},
 								animation: {
 									enterFrom: {
@@ -57,7 +57,7 @@ export class CardService {
 										// scaleX: 0.5,
 										// scaleY: 0.5,
 										duration: 300,
-										curve: DEFAULT_ANIMATION_CURVE,
+										curve: DEFAULT_ANIMATION_CURVE
 									},
 									exitTo: {
 										translateX: 350,
@@ -66,15 +66,15 @@ export class CardService {
 										// scaleX: 0.5,
 										// scaleY: 0.5,
 										duration: 300,
-										curve: DEFAULT_ANIMATION_CURVE,
-									},
-								},
+										curve: DEFAULT_ANIMATION_CURVE
+									}
+								}
 							})
 							.then(() => {
 								this._characterCards[character] = cardView;
 								resolve();
 							})
-							.catch((err) => {
+							.catch(err => {
 								console.log('error open', err);
 							});
 					});
@@ -83,7 +83,7 @@ export class CardService {
 	}
 
 	closeCard(character: Character): Promise<void> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			if (this._characterCards[character]) {
 				getRootLayout()
 					.close(this._characterCards[character])
@@ -92,15 +92,15 @@ export class CardService {
 						delete this._characterCards[character];
 						resolve();
 					})
-					.catch((err) => {
+					.catch(err => {
 						console.log('error close', err);
 					});
 			}
 		});
 	}
 
-	closeAllCards() {
-		return new Promise((resolve) => {
+	closeAllCards(): Promise<void> {
+		return new Promise(resolve => {
 			let cnt = 0;
 			const cardKeys = Object.keys(this._characterCards);
 			const closeIt = () => {
