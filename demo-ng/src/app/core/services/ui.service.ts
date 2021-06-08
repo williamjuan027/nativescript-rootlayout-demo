@@ -270,9 +270,11 @@ export class UIService {
 
 	getView(component, input?: any): Promise<View> {
 		return new Promise((resolve) => {
-      resolve(generateNativeScriptView(component, {
+      const cmpRef = generateNativeScriptView(component, {
         injector: this.injector
-      }).firstNativeLikeView);
+      });
+      (<any>cmpRef.firstNativeLikeView).__ngRef = cmpRef.ref;
+      resolve(cmpRef.firstNativeLikeView);
 		});
 	}
 }
