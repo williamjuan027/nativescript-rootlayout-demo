@@ -11,7 +11,7 @@ This app is built with the NativeScript CLI. Once you have the [CLI installed](h
 ```bash
 git clone https://github.com/williamjuan027/nativescript-rootlayout-demo.git
 
-cd nativescript-rootlayout-demo/ng-demo
+cd nativescript-rootlayout-demo/demo-ng
 ```
 
 Install the project's dependencies
