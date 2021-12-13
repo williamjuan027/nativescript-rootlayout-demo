@@ -23,15 +23,15 @@ npm install
 You can then run the app on iOS and Android using the following commands:
 
 ```bash
-npm run start.ios
+ns run ios
 
-npm run start.android
+ns run android
 ```
 
-> This app uses the new RootLayout component from Nativescript 8 which is still curently in alpha, make sure that the latest Nativescript alpha is installed prior to running the app
+> This app uses the new RootLayout component from Nativescript 8, make sure that the NativeScript 8 is installed prior to running the app
 
 ```bash
-npm install -g nativescript@alpha
+npm install -g nativescript
 ```
 
 ## How to Use RootLayout
