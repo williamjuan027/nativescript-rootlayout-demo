@@ -1,0 +1,101 @@
+﻿/*
+In NativeScript, the app.css file is where you place CSS rules that
+you would like to apply to your entire application. Check out
+http://docs.nativescript.org/ui/styling for a full list of the CSS
+selectors and properties you can use to style UI components.
+
+/*
+In many cases you may want to use the NativeScript core theme instead
+of writing your own CSS rules. You can learn more about the
+NativeScript core theme at https://github.com/nativescript/theme
+The imported CSS rules must precede all other types of rules.
+*/
+@import '@nativescript/theme/css/core.css';
+@import '@nativescript/theme/css/default.css';
+
+/* Place any CSS rules you want to apply on both iOS and Android here.
+This is where the vast majority of your CSS code goes. */
+
+/*
+The following CSS rule changes the font size of all Buttons that have the
+'-primary' class modifier.
+*/
+Button.-primary {
+  font-size: 18;
+}
+
+/*
+    Text Colors
+*/
+.text-accent-primary {
+	color: #63b0f5;
+}
+
+.text-accent-secondary {
+	color: #c0defa;
+}
+
+.text-accent-tertiary {
+	color: #dbecfc;
+}
+
+/*
+    Background Colors
+*/
+.bg-accent-primary {
+	background-color: #63b0f5;
+}
+
+.bg-accent-secondary {
+	background-color: #c0defa;
+}
+
+.bg-accent-tertiary {
+	background-color: #dbecfc;
+}
+
+/*
+    Containers
+*/
+.home-option-container {
+	padding: 5;
+	background-color: #fff;
+	border-radius: 15 14 15 15;
+}
+
+.home-option-container > Label {
+	font-size: 16;
+	text-align: center;
+	font-weight: bold;
+	text-wrap: true;
+	margin: 10 0;
+}
+
+.button {
+	font-size: 15;
+	font-weight: bold;
+	background-color: white;
+	color: gray;
+	border-radius: 10 9 10 10;
+	padding: 20;
+	margin: 10 0;
+}
+.button > Label {
+	text-align: center;
+	text-wrap: true;
+}
+
+.button-plain {
+	font-size: 12;
+	color: black;
+	background-color: #dbecfc;
+	border-radius: 8;
+	padding: 0;
+	margin: 0 5 0 5;
+}
+
+.character-title {
+	font-weight: bold;
+	text-shadow: 1px 1px rgb(255, 139, 249);
+	font-size: 13;
+}
